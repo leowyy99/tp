@@ -33,7 +33,9 @@ public class AddCommandParser {
 
         switch (flag) {
         case Constants.FLAG_UNIVERSITY:
+            System.out.println("parsing add /uni");
             handleUniFlagArgs(flagArguments, universityMasterList, universitySelectedList);
+            System.out.println("parse success");
             return new AddUniCommand(university, universityMasterList, universitySelectedList);
         case Constants.FLAG_MODULE:
             handleModFlagArgs(flagArguments, moduleMasterList, moduleSelectedList);

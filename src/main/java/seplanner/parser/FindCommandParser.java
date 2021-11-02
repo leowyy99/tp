@@ -5,9 +5,9 @@ import seplanner.commands.FindModCommand;
 import seplanner.commands.FindUniCommand;
 import seplanner.constants.Constants;
 import seplanner.enumerations.FindModInputType;
+import seplanner.exceptions.FindParseException;
 import seplanner.modules.ModuleList;
 import seplanner.universities.UniversityList;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +17,7 @@ public class FindCommandParser {
     private static final Logger logger = Logger.getLogger(Constants.LOGGER_NAME);
 
     public Command parse(String arguments, UniversityList universityMasterList, ModuleList moduleMasterList)
-            throws ParseException {
+            throws FindParseException {
 
         logger.log(Level.INFO, Constants.LOGMSG_PARSESTARTED);
         String searchString = identifyFlagAndSplitArgs(arguments);
@@ -34,15 +34,15 @@ public class FindCommandParser {
             return new FindModCommand(searchString, moduleMasterList, FindModInputType.MODULENAME);
         default:
             logger.log(Level.WARNING, Constants.LOGMSG_PARSEFAILED);
-            throw new ParseException(Constants.ERRORMSG_PARSEEXCEPTION_INCORRECTFLAGS, 1);
+            throw new FindParseException(Constants.ERRORMSG_PARSEEXCEPTION_INCORRECTFLAGS, 1);
         }
     }
 
-    private String identifyFlagAndSplitArgs(String arguments) throws ParseException {
+    private String identifyFlagAndSplitArgs(String arguments) throws FindParseException {
         String[] argumentsSubstrings = arguments.trim().split(" ", 2);
         if (argumentsSubstrings.length < 2) {
             logger.log(Level.WARNING, Constants.LOGMSG_PARSEFAILED);
-            throw new ParseException(Constants.ERRORMSG_PARSEEXCEPTION_MISSINGARGUMENTS, 1);
+            throw new FindParseException(Constants.ERRORMSG_PARSEEXCEPTION_MISSINGARGUMENTS, 1);
         }
         flag = argumentsSubstrings[0];
         return argumentsSubstrings[1];
